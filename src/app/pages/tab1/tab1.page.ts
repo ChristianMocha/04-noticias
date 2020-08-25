@@ -19,14 +19,14 @@ export class Tab1Page implements OnInit {
   }
 
   loadData(event) {
-    console.log(event);
-    this.cargarNoticia( event );
+    //console.log(event);
+    this.cargarNoticia(event);
   }
-  
-  cargarNoticia( event? ) {
+
+  cargarNoticia(event?) {
     this.noticiasService.getTopHeadlines().subscribe(
       resp => {
-        console.log('noticias ', resp);
+        // console.log('noticias ', resp);
 
         if (resp.articles.length === 0) {
           event.target.disabled = true;
@@ -35,9 +35,9 @@ export class Tab1Page implements OnInit {
         //this.noticias = resp.articles;
         this.noticias.push(...resp.articles);
 
-        if ( event ) {
+        if (event) {
           event.target.complete();
-          
+
         }
       });
   }
