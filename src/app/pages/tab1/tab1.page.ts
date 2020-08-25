@@ -7,20 +7,39 @@ import { Article } from '../../interfaces/interfaces';
   templateUrl: 'tab1.page.html',
   styleUrls: ['tab1.page.scss']
 })
-export class Tab1Page implements OnInit{
+export class Tab1Page implements OnInit {
 
-  noticias: Article[]=[];
+  noticias: Article[] = [];
 
   constructor(private noticiasService: NoticiasService) {
 
   }
-  ngOnInit(){
-    this.noticiasService.getTopHeadlines().subscribe( 
-      resp => {     
+  ngOnInit() {
+    this.cargarNoticia();
+  }
+
+  loadData(event) {
+    console.log(event);
+    this.cargarNoticia( event );
+  }
+  
+  cargarNoticia( event? ) {
+    this.noticiasService.getTopHeadlines().subscribe(
+      resp => {
         console.log('noticias ', resp);
+
+        if (resp.articles.length === 0) {
+          event.target.disabled = true;
+          return;
+        }
         //this.noticias = resp.articles;
-        this.noticias.push( ...resp.articles );
-    })
+        this.noticias.push(...resp.articles);
+
+        if ( event ) {
+          event.target.complete();
+          
+        }
+      });
   }
 
 }
